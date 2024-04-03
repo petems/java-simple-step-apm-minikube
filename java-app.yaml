@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: datadog-java-apm-demo
+  annotations:
+    admission.datadoghq.com/java-lib.version: "latest"
+  labels:
+    admission.datadoghq.com/enabled: "true"
+spec:
+  containers:
+  - name: java-app
+    image: petems/datadog-java-apm-demo
+    ports:
+    - containerPort: 8080
+  
