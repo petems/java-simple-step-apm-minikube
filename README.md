@@ -49,6 +49,39 @@ NAME                    READY   STATUS    RESTARTS   AGE
 datadog-java-apm-demo   1/1     Running   0          18m
 ```
 
+## Deploy it as a service
+
+```
+$ kubectl expose deployment java-app --type=LoadBalancer --port=8080
+service/java-app exposed
+$ kubectl get services
+NAME                                               TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE
+datadog-agent                                      ClusterIP      10.99.167.139    <none>        8125/UDP,8126/TCP   105m
+datadog-agent-cluster-agent                        ClusterIP      10.101.255.109   <none>        5005/TCP            105m
+datadog-agent-cluster-agent-admission-controller   ClusterIP      10.109.153.38    <none>        443/TCP             105m
+java-app                                           LoadBalancer   10.98.20.110     <pending>     8080:30800/TCP      4s
+kubernetes                                         ClusterIP      10.96.0.1        <none>        443/TCP             106m
+```
+
+Run it as a minikube service so we can open it in the browser:
+
+```
+$ minikube service java-app
+|-----------|----------|-------------|---------------------------|
+| NAMESPACE |   NAME   | TARGET PORT |            URL            |
+|-----------|----------|-------------|---------------------------|
+| default   | java-app |        8080 | http://192.168.49.2:30800 |
+|-----------|----------|-------------|---------------------------|
+🏃  Starting tunnel for service java-app.
+|-----------|----------|-------------|------------------------|
+| NAMESPACE |   NAME   | TARGET PORT |          URL           |
+|-----------|----------|-------------|------------------------|
+| default   | java-app |             | http://127.0.0.1:52838 |
+|-----------|----------|-------------|------------------------|
+🎉  Opening service default/java-app in default browser...
+❗  Because you are using a Docker driver on darwin, the terminal needs to be open to run it.
+```
+
 ## Observe the Single Step APM Settings
 
 Do some pod describes so you can see the automatic injection working:
