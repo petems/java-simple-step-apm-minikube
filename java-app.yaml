@@ -26,19 +26,21 @@ spec:
         ad.datadoghq.com/java-app.logs: |
           [{
             "source":"java",
-            "service":"java-app",
-            "log_processing_rules":[{"type":"multi_line",
-            "name":"log_start_with_date","pattern":"\\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])"}]
+            "service":"java-app"
           }]
         admission.datadoghq.com/java-lib.version: "v1.31.2"
     spec:
+      hostNetwork: false
       containers:
-      - image: petems/datadog-java-apm-demo:f697397b
+      - image: petems/datadog-java-apm-demo:002d160d
         name: java-app
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
           hostPort: 8080
           name: "http"
+        env:
+          - name: DD_LOGS_INJECTION
+            value: "true"
       nodeSelector:
         kubernetes.io/os: linux
