@@ -33,7 +33,7 @@ spec:
         admission.datadoghq.com/java-lib.version: "v1.31.2"
     spec:
       containers:
-      - image: petems/datadog-java-apm-demo
+      - image: petems/datadog-java-apm-demo:f697397b
         name: java-app
         imagePullPolicy: Always
         ports:
