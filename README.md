@@ -44,7 +44,7 @@ kubectl apply -f java-app.yaml
 ## Wait for Java app to confirm healthy
 
 ```
-kubectl get pods datadog-java-apm-demo
+kubectl get pods -l run=java-app
 NAME                    READY   STATUS    RESTARTS   AGE
 datadog-java-apm-demo   1/1     Running   0          18m
 ```
@@ -87,7 +87,7 @@ $ minikube service java-app
 Do some pod describes so you can see the automatic injection working:
 
 ```
-$ kubectl describe pod datadog-java-apm-demo | grep Volumes -C 14
+$ kubectl describe pod -l run=java-app | grep Volumes -C 14
       DD_ENTITY_ID:                      (v1:metadata.uid)
       DD_DOGSTATSD_URL:                 unix:///var/run/datadog/dsd.socket
       DD_TRACE_AGENT_URL:               unix:///var/run/datadog/apm.socket
@@ -124,7 +124,7 @@ You can see the `datadog-auto-instrumentation` volume set as an `EmptyDir` that 
 We can also see the environment variables that add the `JAVA_TOOL_OPTIONS ` has worked as well:
 
 ```
-$ kubectl describe pod datadog-java-apm-demo | grep Environment -C 9
+$ kubectl describe pod -l run=java-app | grep Environment -C 9
       Finished:     Wed, 03 Apr 2024 13:53:40 +0100
     Ready:          True
     Restart Count:  0
@@ -169,7 +169,7 @@ Containers:
 We can also look at the logs for the app to see the Datadog tracer is running:
 
 ```
-$ kubectl logs datadog-java-apm-demo | grep dd-java-agent.jar
+$ kubectl logs -l run=java-app | grep dd-java-agent.jar
 Defaulted container "java-service" out of: java-service, datadog-lib-java-init (init)
 Picked up JAVA_TOOL_OPTIONS:  -javaagent:/datadog-lib/dd-java-agent.jar -XX:OnError=/datadog-lib/continuousprofiler/tmp/dd_crash_uploader.sh -XX:ErrorFile=/datadog-lib/continuousprofiler/tmp/hs_err_pid_%p.log
 ```
