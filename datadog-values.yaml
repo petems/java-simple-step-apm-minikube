@@ -1,4 +1,5 @@
 datadog:
+  site: datadoghq.com
   apiKeyExistingSecret: datadog-secret
   tags:
     - env:minkube
